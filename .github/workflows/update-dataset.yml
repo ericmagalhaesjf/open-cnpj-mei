@@ -39,6 +39,9 @@ jobs:
 
           jq -s '.' dados-juiz-de-fora.ndjson > dados-juiz-de-fora.json
 
+      - name: Validar JSON
+        run: jq empty dados-juiz-de-fora.json
+
       - name: Commit e push
         run: |
           git config --global user.name "github-actions"
