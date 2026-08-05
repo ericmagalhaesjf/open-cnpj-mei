@@ -5,8 +5,8 @@ document.getElementById("formPesquisa").addEventListener("submit", async functio
   const estado = document.getElementById("estado").value;
   const cnae = document.getElementById("cnae").value;
 
-  // Endpoint da API OpenCNPJ (ajuste conforme documentação oficial)
-  const url = `https://api.opencnpj.org/v1/empresas?municipio=${cidade}&uf=${estado}&porte=MEI&cnae=${cnae}`;
+  // Endpoint da API OpenCNPJ (ajuste conforme docs oficiais)
+  const url = `https://api.opencnpj.org/v1/empresas?municipio=${cidade}&uf=${estado}&cnae=${cnae}`;
 
   try {
     const response = await fetch(url);
@@ -19,7 +19,10 @@ document.getElementById("formPesquisa").addEventListener("submit", async functio
 
     if (data && data.empresas && data.empresas.length > 0) {
       data.empresas.forEach(emp => {
-        if (emp.porte === "MEI") { // filtro extra
+        // Filtro para MEI: natureza jurídica 213-5 ou nome empresarial no formato MEI
+        const isMEI = emp.natureza_juridica === "213-5" || emp.nome.includes(emp.cnpj);
+
+        if (isMEI) {
           const div = document.createElement("div");
           div.className = "empresa";
           div.innerHTML = `
