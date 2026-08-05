@@ -1,0 +1,72 @@
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  margin: 0;
+  background: #f4f6f9;
+  color: #333;
+}
+
+header {
+  background: #004aad;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+main {
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+form {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.campo {
+  flex: 1;
+  min-width: 200px;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+button {
+  background: #004aad;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover {
+  background: #003080;
+}
+
+#resultado {
+  margin-top: 20px;
+}
+
+.empresa {
+  background: white;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+footer {
+  background: #004aad;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  margin-top: 30px;
+}
