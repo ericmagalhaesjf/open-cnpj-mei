@@ -1,0 +1,4 @@
+jq -c 'select(.municipio == "Juiz de Fora" and .uf == "MG") 
+| {cnpj:.cnpj, razao_social:.razao_social, cnae:.cnae, municipio:.municipio, uf:.uf, simples:.simples, natureza_juridica:.natureza_juridica, situacao_cadastral:.situacao_cadastral, logradouro:.logradouro, numero:.numero, bairro:.bairro}' receita.json > dados-juiz-de-fora.ndjson
+
+jq -s '.' dados-juiz-de-fora.ndjson > dados-juiz-de-fora.json
