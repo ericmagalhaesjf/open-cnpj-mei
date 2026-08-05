@@ -8,7 +8,13 @@ form.addEventListener("submit", async (ev) => {
   statusEl.textContent = "Consultando API...";
   resultadoDiv.innerHTML = "";
 
-  const cnpj = document.getElementById("cnpj").value.replace(/\D/g, "");
+  const inputEl = document.getElementById("cnpj");
+  if (!inputEl) {
+    statusEl.textContent = "Erro: campo CNPJ não encontrado.";
+    return;
+  }
+
+  const cnpj = inputEl.value.replace(/\D/g, "");
   if (!cnpj) {
     statusEl.textContent = "Digite um CNPJ válido.";
     return;
@@ -16,11 +22,18 @@ form.addEventListener("submit", async (ev) => {
 
   try {
     const r = await fetch(`https://publica.cnpj.ws/cnpj/${cnpj}`);
+    if (r.status === 429) {
+      const erro = await r.json();
+      statusEl.textContent = `Erro: ${erro.titulo} - ${erro.detalhes}`;
+      return;
+    }
     if (!r.ok) throw new Error("Erro na consulta");
     const data = await r.json();
 
+    // Modelo oficial de Simples Nacional e MEI
     const simples = data.simples;
-    const isMEI = simples?.mei_optante === true;
+    const isSimples = simples?.simples === true;
+    const isMEI = simples?.mei === true;
 
     const empresa = `
       <div class="empresa">
@@ -29,7 +42,7 @@ form.addEventListener("submit", async (ev) => {
         🏢 <strong>CNAE:</strong> ${data.estabelecimento.atividade_principal?.subclasse}<br>
         ✅ <strong>Situação:</strong> ${data.estabelecimento.situacao_cadastral}<br>
         📍 <strong>Endereço:</strong> ${data.estabelecimento.logradouro}, ${data.estabelecimento.numero} - ${data.estabelecimento.bairro}, ${data.estabelecimento.cidade.nome} / ${data.estabelecimento.estado.sigla}<br>
-        ⚖️ <strong>Simples Nacional:</strong> ${simples?.simples_optante ? "Optante" : "Não optante"}<br>
+        ⚖️ <strong>Simples Nacional:</strong> ${isSimples ? "Optante" : "Não optante"}<br>
         👤 <strong>MEI:</strong> ${isMEI ? "Sim" : "Não"}
       </div>
     `;
