@@ -1,35 +1,43 @@
-:root{
-  --primary:#004aad;
-  --accent:#0066cc;
-  --bg:#f4f6f9;
-  --card:#ffffff;
-  --muted:#6b7280;
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  background: #f5f5f5;
+  color: #333;
 }
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Inter, "Segoe UI", Roboto, Arial, sans-serif;
-  background:var(--bg);
-  color:#111827;
-  -webkit-font-smoothing:antialiased;
+
+h1 {
+  color: #004aad;
 }
-.container{max-width:1100px;margin:0 auto;padding:20px}
-.topbar{background:var(--primary);color:#fff;padding:22px 0}
-.topbar h1{margin:0;font-size:20px}
-.subtitle{margin:6px 0 0;color:rgba(255,255,255,0.9)}
-.form{display:flex;gap:12px;flex-wrap:wrap;align-items:end}
-.campo{flex:1;min-width:180px}
-.campo label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
-.campo input{width:100%;padding:10px;border-radius:8px;border:1px solid #d1d5db;background:#fff}
-.actions{display:flex;gap:8px;align-items:center}
-button{background:var(--primary);color:#fff;border:none;padding:10px 14px;border-radius:8px;cursor:pointer}
-button#btnExport{background:var(--accent)}
-.status{margin-top:18px;color:var(--muted)}
-.resultado{margin-top:18px}
-.empresa{background:var(--card);padding:12px;border-radius:10px;margin-bottom:10px;box-shadow:0 1px 4px rgba(2,6,23,0.06)}
-.chartwrap{margin-top:20px;background:var(--card);padding:12px;border-radius:10px}
-.footer{background:var(--primary);color:#fff;padding:12px;margin-top:30px;text-align:center}
-@media(max-width:720px){
-  .form{flex-direction:column;align-items:stretch}
-  .actions{justify-content:space-between}
+
+.form {
+  margin-bottom: 20px;
+}
+
+.campo {
+  margin-bottom: 10px;
+}
+
+input {
+  padding: 8px;
+  width: 250px;
+}
+
+button {
+  padding: 8px 12px;
+  background: #004aad;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #003080;
+}
+
+.empresa {
+  background: white;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
