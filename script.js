@@ -5,37 +5,39 @@ document.getElementById("formPesquisa").addEventListener("submit", async functio
   const estado = document.getElementById("estado").value;
   const cnae = document.getElementById("cnae").value;
 
-  // Endpoint da API OpenCNPJ (ajuste conforme documentação oficial)
-  const url = `https://api.opencnpj.org/v1/empresas?municipio=${cidade}&uf=${estado}&cnae=${cnae}`;
+  const resultadoDiv = document.getElementById("resultado");
+  resultadoDiv.innerHTML = "Carregando...";
 
   try {
-    const response = await fetch(url);
+    // Lendo dataset local atualizado pelo GitHub Actions
+    const response = await fetch("dados.json");
     const data = await response.json();
 
-    const resultadoDiv = document.getElementById("resultado");
     resultadoDiv.innerHTML = "";
-
     let atividades = {};
 
-    if (data && data.empresas && data.empresas.length > 0) {
-      data.empresas.forEach(emp => {
-        // Identificação de MEI pelo padrão da razão social
-        const isMEI = emp.nome && emp.nome.startsWith(emp.cnpj);
+    // Filtrar apenas MEIs de Juiz de Fora
+    const empresas = data.filter(emp => {
+      const isCidade = emp.municipio === cidade && emp.uf === estado;
+      const isMEI = emp.simples && emp.simples.mei === true;
+      const isCNAE = !cnae || emp.cnae === cnae;
+      return isCidade && isMEI && isCNAE;
+    });
 
-        if (isMEI) {
-          const div = document.createElement("div");
-          div.className = "empresa";
-          div.innerHTML = `
-            <strong>${emp.nome}</strong><br>
-            📌 CNPJ: ${emp.cnpj}<br>
-            🏢 CNAE: ${emp.cnae}<br>
-            ✅ Situação: ${emp.situacao}<br>
-            📍 Endereço: ${emp.endereco}<br>
-          `;
-          resultadoDiv.appendChild(div);
+    if (empresas.length > 0) {
+      empresas.forEach(emp => {
+        const div = document.createElement("div");
+        div.className = "empresa";
+        div.innerHTML = `
+          <strong>${emp.razao_social}</strong><br>
+          📌 CNPJ: ${emp.cnpj}<br>
+          🏢 CNAE: ${emp.cnae}<br>
+          ✅ Situação: ${emp.situacao_cadastral}<br>
+          📍 Endereço: ${emp.endereco}<br>
+        `;
+        resultadoDiv.appendChild(div);
 
-          atividades[emp.cnae] = (atividades[emp.cnae] || 0) + 1;
-        }
+        atividades[emp.cnae] = (atividades[emp.cnae] || 0) + 1;
       });
 
       // Gráfico de distribuição por CNAE
@@ -55,6 +57,6 @@ document.getElementById("formPesquisa").addEventListener("submit", async functio
       resultadoDiv.innerHTML = "Nenhum MEI encontrado.";
     }
   } catch (error) {
-    document.getElementById("resultado").innerHTML = "Erro na consulta: " + error.message;
+    resultadoDiv.innerHTML = "Erro na consulta: " + error.message;
   }
 });
