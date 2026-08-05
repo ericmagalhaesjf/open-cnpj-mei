@@ -11,7 +11,19 @@
   <form id="formPesquisa" class="form">
     <div class="campo">
       <label for="cnpj">CNPJ</label>
-      <input id="cnpj" name="cnpj" placeholder="Digite o CNPJ" required />
+      <input id="cnpj" name="cnpj" placeholder="Digite o CNPJ" />
+    </div>
+    <div class="campo">
+      <label for="cidade">Cidade</label>
+      <input id="cidade" name="cidade" placeholder="Digite a cidade" />
+    </div>
+    <div class="campo">
+      <label for="estado">Estado (UF)</label>
+      <input id="estado" name="estado" placeholder="Ex: MG" maxlength="2" />
+    </div>
+    <div class="campo">
+      <label for="cnae">CNAE</label>
+      <input id="cnae" name="cnae" placeholder="Digite o CNAE" />
     </div>
     <div class="actions">
       <button type="submit">🔍 Pesquisar</button>
@@ -21,6 +33,10 @@
   <p id="status"></p>
   <div id="resultado"></div>
   <canvas id="grafico"></canvas>
+
+  <footer>
+    <p>Desenvolvido por <strong>Eric Magalhães</strong> • Juiz de Fora - MG</p>
+  </footer>
 
   <script src="script.js"></script>
 </body>
