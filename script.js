@@ -1,43 +1,60 @@
-body {
-  font-family: Arial, sans-serif;
-  margin: 20px;
-  background: #f5f5f5;
-  color: #333;
-}
+const form = document.getElementById('formPesquisa');
+const resultadoDiv = document.getElementById('resultado');
+const statusEl = document.getElementById('status');
+const graficoEl = document.getElementById('grafico');
 
-h1 {
-  color: #004aad;
-}
+form.addEventListener("submit", async (ev) => {
+  ev.preventDefault();
+  statusEl.textContent = "Consultando API...";
+  resultadoDiv.innerHTML = "";
 
-.form {
-  margin-bottom: 20px;
-}
+  const cnpj = document.getElementById("cnpj").value.replace(/\D/g, "");
+  if (!cnpj) {
+    statusEl.textContent = "Digite um CNPJ válido.";
+    return;
+  }
 
-.campo {
-  margin-bottom: 10px;
-}
+  try {
+    const r = await fetch(`https://publica.cnpj.ws/cnpj/${cnpj}`);
+    if (!r.ok) throw new Error("Erro na consulta");
+    const data = await r.json();
 
-input {
-  padding: 8px;
-  width: 250px;
-}
+    const simples = data.simples;
+    const isMEI = simples?.mei_optante === true;
 
-button {
-  padding: 8px 12px;
-  background: #004aad;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
+    const empresa = `
+      <div class="empresa">
+        <strong>${data.razao_social}</strong><br>
+        📌 <strong>CNPJ:</strong> ${data.estabelecimento.cnpj}<br>
+        🏢 <strong>CNAE:</strong> ${data.estabelecimento.atividade_principal?.subclasse}<br>
+        ✅ <strong>Situação:</strong> ${data.estabelecimento.situacao_cadastral}<br>
+        📍 <strong>Endereço:</strong> ${data.estabelecimento.logradouro}, ${data.estabelecimento.numero} - ${data.estabelecimento.bairro}, ${data.estabelecimento.cidade.nome} / ${data.estabelecimento.estado.sigla}<br>
+        ⚖️ <strong>Simples Nacional:</strong> ${simples?.simples_optante ? "Optante" : "Não optante"}<br>
+        👤 <strong>MEI:</strong> ${isMEI ? "Sim" : "Não"}
+      </div>
+    `;
+    resultadoDiv.innerHTML = empresa;
+    statusEl.textContent = "Consulta realizada com sucesso.";
 
-button:hover {
-  background: #003080;
-}
+    // Exemplo de gráfico simples: situação cadastral
+    if (window._chart) window._chart.destroy();
+    const ctx = graficoEl.getContext("2d");
+    window._chart = new Chart(ctx, {
+      type: "pie",
+      data: {
+        labels: ["Ativa", "Baixada", "Suspensa"],
+        datasets: [{
+          data: [
+            data.estabelecimento.situacao_cadastral === "ATIVA" ? 1 : 0,
+            data.estabelecimento.situacao_cadastral === "BAIXADA" ? 1 : 0,
+            data.estabelecimento.situacao_cadastral === "SUSPENSA" ? 1 : 0
+          ],
+          backgroundColor: ["#4caf50", "#f44336", "#ff9800"]
+        }]
+      }
+    });
 
-.empresa {
-  background: white;
-  padding: 12px;
-  margin-bottom: 10px;
-  border-radius: 6px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
+  } catch (err) {
+    statusEl.textContent = "Erro: " + err.message;
+  }
+});
