@@ -2,7 +2,7 @@
   {
     "cnpj": "12345678000199",
     "razao_social": "12345678000199 João da Silva",
-    "cnae": "6201500",
+    "cnae": "6210500",
     "municipio": "Juiz de Fora",
     "uf": "MG",
     "simples": { "mei": true },
