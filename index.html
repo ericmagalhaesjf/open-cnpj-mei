@@ -1,56 +1,27 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Consulta MEI - Juiz de Fora</title>
-  <link rel="stylesheet" href="style.css" />
-  <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script defer src="script.js"></script>
+  <meta charset="UTF-8">
+  <title>Consulta de CNPJ - MEI</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <header class="topbar">
-    <div class="container">
-      <h1>📊 Consulta de MEIs — Juiz de Fora</h1>
-      <p class="subtitle">Dados públicos do OpenCNPJ • Atualização automática via GitHub Actions</p>
+  <h1>Consulta de CNPJ - MEI</h1>
+  <form id="formPesquisa" class="form">
+    <div class="campo">
+      <label for="cnpj">CNPJ</label>
+      <input id="cnpj" name="cnpj" placeholder="Digite o CNPJ" required />
     </div>
-  </header>
-
-  <main class="container">
-    <section class="controls">
-      <form id="formPesquisa" class="form">
-        <div class="campo">
-          <label for="cidade">Cidade</label>
-          <input id="cidade" name="cidade" value="Juiz de Fora" required />
-        </div>
-        <div class="campo">
-          <label for="estado">UF</label>
-          <input id="estado" name="estado" value="MG" maxlength="2" required />
-        </div>
-        <div class="campo">
-          <label for="cnae">CNAE (opcional)</label>
-          <input id="cnae" name="cnae" placeholder="Ex: 6201500" />
-        </div>
-        <div class="actions">
-          <button type="submit" id="btnPesquisar">🔍 Pesquisar</button>
-          <button type="button" id="btnExport" title="Exportar resultados para CSV">⬇️ Exportar CSV</button>
-        </div>
-      </form>
-    </section>
-
-    <section id="status" class="status">Aguardando pesquisa...</section>
-
-    <section id="resultado" class="resultado"></section>
-
-    <section class="chartwrap">
-      <canvas id="grafico" height="120"></canvas>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <div class="container">
-      <small>Projeto: Open CNPJ MEI • DEV. Eric Magalhães</small>
+    <div class="actions">
+      <button type="submit">🔍 Pesquisar</button>
     </div>
-  </footer>
+  </form>
+
+  <p id="status"></p>
+  <div id="resultado"></div>
+  <canvas id="grafico"></canvas>
+
+  <script src="script.js"></script>
 </body>
 </html>
