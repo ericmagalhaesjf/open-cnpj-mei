@@ -5,8 +5,8 @@ document.getElementById("formPesquisa").addEventListener("submit", async functio
   const estado = document.getElementById("estado").value;
   const cnae = document.getElementById("cnae").value;
 
-  // Endpoint fictício do OpenCNPJ (ajuste conforme docs oficiais)
-  const url = `https://api.opencnpj.org/v1/empresas?municipio=${cidade}&uf=${estado}&cnae=${cnae}&porte=MEI`;
+  // Endpoint da API OpenCNPJ (ajuste conforme documentação oficial)
+  const url = `https://api.opencnpj.org/v1/empresas?municipio=${cidade}&uf=${estado}&porte=MEI&cnae=${cnae}`;
 
   try {
     const response = await fetch(url);
