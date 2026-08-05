@@ -36,7 +36,7 @@ form.addEventListener("submit", async (ev) => {
     resultadoDiv.innerHTML = empresa;
     statusEl.textContent = "Consulta realizada com sucesso.";
 
-    // Exemplo de gráfico simples: situação cadastral
+    // Gráfico simples da situação cadastral
     if (window._chart) window._chart.destroy();
     const ctx = graficoEl.getContext("2d");
     window._chart = new Chart(ctx, {
