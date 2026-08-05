@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Consulta MEI - Juiz de Fora</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header>
+    <h1>📊 Consulta de MEIs - Juiz de Fora</h1>
+    <p>Filtre empresas MEI por cidade e CNAE usando dados do OpenCNPJ</p>
+  </header>
+
+  <main>
+    <form id="formPesquisa">
+      <div class="campo">
+        <label>Cidade:</label>
+        <input type="text" id="cidade" value="Juiz de Fora" required>
+      </div>
+      <div class="campo">
+        <label>Estado (UF):</label>
+        <input type="text" id="estado" value="MG" maxlength="2" required>
+      </div>
+      <div class="campo">
+        <label>CNAE:</label>
+        <input type="text" id="cnae" placeholder="Ex: 6201500">
+      </div>
+      <button type="submit">🔍 Pesquisar</button>
+    </form>
+
+    <section id="resultado"></section>
+    <canvas id="grafico"></canvas>
+  </main>
+
+  <footer>
+    <p>Projeto de análise de dados com OpenCNPJ • DEV. Eric Magalhães</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
