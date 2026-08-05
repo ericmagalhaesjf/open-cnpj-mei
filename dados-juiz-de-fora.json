@@ -1,8 +1,8 @@
 [
   {
     "cnpj": "12345678000199",
-    "razao_social": "12345678000199 João da Silva",
-    "cnae": "6210500",
+    "razao_social": "João da Silva",
+    "cnae": "6201500",
     "municipio": "Juiz de Fora",
     "uf": "MG",
     "simples": { "mei": true },
@@ -14,7 +14,7 @@
   },
   {
     "cnpj": "98765432000188",
-    "razao_social": "98765432000188 Maria Oliveira",
+    "razao_social": "Maria Oliveira",
     "cnae": "4711302",
     "municipio": "Juiz de Fora",
     "uf": "MG",
