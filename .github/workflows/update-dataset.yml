@@ -1,16 +1,48 @@
-jq -c 'select(.municipio == "Juiz de Fora" and .uf == "MG") 
-| {
-    cnpj:.cnpj,
-    razao_social:.razao_social,
-    cnae:.cnae,
-    municipio:.municipio,
-    uf:.uf,
-    simples:.simples,
-    natureza_juridica:.natureza_juridica,
-    situacao_cadastral:.situacao_cadastral,
-    logradouro:.logradouro,
-    numero:.numero,
-    bairro:.bairro
-  }' receita.json > dados-juiz-de-fora.ndjson
+name: Atualizar dataset Juiz de Fora
 
-jq -s '.' dados-juiz-de-fora.ndjson > dados-juiz-de-fora.json
+on:
+  schedule:
+    - cron: '0 2 1 * *'   # roda todo dia 1 do mês às 02h UTC
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Instalar jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Baixar receita.json.gz
+        run: |
+          curl -L "https://opencnpj.s3.amazonaws.com/receita.json.gz" -o receita.json.gz
+          gunzip -f receita.json.gz
+
+      - name: Filtrar Juiz de Fora
+        run: |
+          jq -c 'select(.municipio == "Juiz de Fora" and .uf == "MG") 
+          | {
+              cnpj:.cnpj,
+              razao_social:.razao_social,
+              cnae:.cnae,
+              municipio:.municipio,
+              uf:.uf,
+              simples:.simples,
+              natureza_juridica:.natureza_juridica,
+              situacao_cadastral:.situacao_cadastral,
+              logradouro:.logradouro,
+              numero:.numero,
+              bairro:.bairro
+            }' receita.json > dados-juiz-de-fora.ndjson
+
+          jq -s '.' dados-juiz-de-fora.ndjson > dados-juiz-de-fora.json
+
+      - name: Commit e push
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
+          git add dados-juiz-de-fora.json
+          git commit -m "Atualização automática: dados-juiz-de-fora.json" || echo "Sem alterações"
+          git push
