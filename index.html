@@ -2,15 +2,14 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Consulta MEI - OpenCNPJ + IBGE</title>
+  <title>Consulta MEI Integrada</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src *; style-src 'self' 'unsafe-inline'; script-src 'self' https://cdn.jsdelivr.net https://servicodados.ibge.gov.br https://api.opencnpj.org;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src *; style-src 'self' 'unsafe-inline'; script-src 'self' https://cdn.jsdelivr.net https://servicodados.ibge.gov.br https://api.opencnpj.org https://www.receitaws.com.br;">
   <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <h1>Consulta de MEIs</h1>
-  <form id="formPesquisa" class="form">
+  <form id="formPesquisa">
     <div class="campo">
       <label for="cnpj">CNPJ</label>
       <input id="cnpj" name="cnpj" placeholder="Digite o CNPJ" />
@@ -27,14 +26,11 @@
       <label for="cnae">CNAE</label>
       <select id="cnae" name="cnae"></select>
     </div>
-    <div class="actions">
-      <button type="submit">🔍 Pesquisar</button>
-    </div>
+    <button type="submit">🔍 Pesquisar</button>
   </form>
 
   <p id="status"></p>
   <ul id="resultado"></ul>
-  <canvas id="grafico"></canvas>
 
   <footer>
     <p>Desenvolvido por <strong>Eric Magalhães</strong> • Juiz de Fora - MG</p>
