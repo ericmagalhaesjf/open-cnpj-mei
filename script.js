@@ -80,14 +80,17 @@ form.addEventListener("submit", async (ev) => {
     }
 
     const r = await fetch(url);
-    if (!r.ok) throw new Error("Erro na consulta");
+    if (!r.ok) {
+      statusEl.textContent = "Nenhum resultado encontrado ou erro na consulta.";
+      return;
+    }
     const dados = await r.json();
 
     const empresas = Array.isArray(dados) ? dados : [dados];
     const meiEmpresas = empresas.filter(e => e.simples?.mei === true);
 
     if (meiEmpresas.length === 0) {
-      statusEl.textContent = "Nenhum MEI encontrado.";
+      statusEl.textContent = "Nenhum MEI encontrado para os filtros informados.";
       return;
     }
 
@@ -106,11 +109,9 @@ function renderResultados(empresas) {
     li.className = "empresa";
     li.innerHTML = `
       <strong>${emp.razao_social}</strong><br>
-      📌 <strong>CNPJ:</strong> ${emp.cnpj}<br>
-      🏢 <strong>CNAE:</strong> ${emp.cnae}<br>
-      ✅ <strong>Situação:</strong> ${emp.situacao_cadastral}<br>
-      📍 <strong>Local:</strong> ${emp.municipio} / ${emp.uf}<br>
-      👤 <strong>MEI:</strong> ${emp.simples?.mei ? "Sim" : "Não"}
+      📌 CNPJ: ${emp.cnpj}<br>
+      📍 Local: ${emp.municipio} / ${emp.uf}<br>
+      👤 MEI: ${emp.simples?.mei ? "Sim" : "Não"}
     `;
     resultadoDiv.appendChild(li);
   });
