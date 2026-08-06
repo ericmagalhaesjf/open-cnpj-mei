@@ -70,7 +70,7 @@ form.addEventListener("submit", async (ev) => {
     } else {
       url = "https://api.opencnpj.org/v1/empresas?";
       if (cnae) url += `cnae=${cnae}&`;
-      if (cidade) url += `municipio=${cidade}&`;
+      if (cidade) url += `municipio=${encodeURIComponent(cidade)}&`;
       if (estado) url += `uf=${estado}&`;
     }
 
@@ -86,7 +86,8 @@ form.addEventListener("submit", async (ev) => {
     }
     const dados = await r.json();
 
-    const empresas = Array.isArray(dados) ? dados : [dados];
+    // Força conversão para lista
+    const empresas = Array.isArray(dados) ? dados : (dados ? [dados] : []);
     const meiEmpresas = empresas.filter(e => e.simples?.mei === true);
 
     if (meiEmpresas.length === 0) {
@@ -108,9 +109,9 @@ function renderResultados(empresas) {
     const li = document.createElement("li");
     li.className = "empresa";
     li.innerHTML = `
-      <strong>${emp.razao_social}</strong><br>
-      📌 CNPJ: ${emp.cnpj}<br>
-      📍 Local: ${emp.municipio} / ${emp.uf}<br>
+      <strong>${emp.razao_social || "Razão Social não disponível"}</strong><br>
+      📌 CNPJ: ${emp.cnpj || "N/D"}<br>
+      📍 Local: ${emp.municipio || "N/D"} / ${emp.uf || "N/D"}<br>
       👤 MEI: ${emp.simples?.mei ? "Sim" : "Não"}
     `;
     resultadoDiv.appendChild(li);
@@ -120,7 +121,8 @@ function renderResultados(empresas) {
 function buildChart(empresas) {
   const counts = {};
   empresas.forEach(e => {
-    counts[e.cnae] = (counts[e.cnae] || 0) + 1;
+    const cnae = e.cnae || "Desconhecido";
+    counts[cnae] = (counts[cnae] || 0) + 1;
   });
   const labels = Object.keys(counts);
   const data = labels.map(l => counts[l]);
