@@ -2,28 +2,24 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Consulta de CNPJ - MEI</title>
+  <title>Consulta MEI por CNAE</title>
   <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <h1>Consulta de CNPJ - MEI</h1>
+  <h1>Consulta de MEIs por CNAE</h1>
   <form id="formPesquisa" class="form">
     <div class="campo">
-      <label for="cnpj">CNPJ</label>
-      <input id="cnpj" name="cnpj" placeholder="Digite o CNPJ" />
-    </div>
-    <div class="campo">
       <label for="cidade">Cidade</label>
-      <input id="cidade" name="cidade" placeholder="Digite a cidade" />
+      <input id="cidade" name="cidade" placeholder="Digite a cidade" required />
     </div>
     <div class="campo">
       <label for="estado">Estado (UF)</label>
-      <input id="estado" name="estado" placeholder="Ex: MG" maxlength="2" />
+      <input id="estado" name="estado" placeholder="Ex: MG" maxlength="2" required />
     </div>
     <div class="campo">
       <label for="cnae">CNAE</label>
-      <input id="cnae" name="cnae" placeholder="Digite o CNAE" />
+      <input id="cnae" name="cnae" placeholder="Digite o CNAE" required />
     </div>
     <div class="actions">
       <button type="submit">🔍 Pesquisar</button>
