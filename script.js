@@ -56,7 +56,7 @@ carregarCNAEs();
 form.addEventListener("submit", async (ev) => {
   ev.preventDefault();
   resultadoDiv.innerHTML = "";
-  statusEl.textContent = "Consultando...";
+  statusEl.textContent = "Processando...";
 
   const cnpj = document.getElementById("cnpj").value.replace(/\D/g, "");
   const cidade = document.getElementById("cidade").value;
@@ -72,6 +72,11 @@ form.addEventListener("submit", async (ev) => {
       if (cnae) url += `cnae=${cnae}&`;
       if (cidade) url += `municipio=${cidade}&`;
       if (estado) url += `uf=${estado}&`;
+    }
+
+    if (!url || url.endsWith("?")) {
+      statusEl.textContent = "Informe pelo menos um dado (CNPJ, CNAE, Cidade ou Estado).";
+      return;
     }
 
     const r = await fetch(url);
@@ -97,16 +102,17 @@ form.addEventListener("submit", async (ev) => {
 function renderResultados(empresas) {
   resultadoDiv.innerHTML = "";
   empresas.forEach(emp => {
-    const div = document.createElement("div");
-    div.className = "empresa";
-    div.innerHTML = `
+    const li = document.createElement("li");
+    li.className = "empresa";
+    li.innerHTML = `
       <strong>${emp.razao_social}</strong><br>
       📌 <strong>CNPJ:</strong> ${emp.cnpj}<br>
       🏢 <strong>CNAE:</strong> ${emp.cnae}<br>
       ✅ <strong>Situação:</strong> ${emp.situacao_cadastral}<br>
-      📍 <strong>Endereço:</strong> ${emp.logradouro}, ${emp.numero} - ${emp.bairro}, ${emp.municipio} / ${emp.uf}
+      📍 <strong>Local:</strong> ${emp.municipio} / ${emp.uf}<br>
+      👤 <strong>MEI:</strong> ${emp.simples?.mei ? "Sim" : "Não"}
     `;
-    resultadoDiv.appendChild(div);
+    resultadoDiv.appendChild(li);
   });
 }
 
