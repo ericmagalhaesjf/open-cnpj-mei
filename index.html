@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Consulta MEI - OpenCNPJ + IBGE</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src *; style-src 'self' 'unsafe-inline'; script-src 'self' https://cdn.jsdelivr.net https://servicodados.ibge.gov.br https://api.opencnpj.org;">
   <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -31,7 +33,7 @@
   </form>
 
   <p id="status"></p>
-  <div id="resultado"></div>
+  <ul id="resultado"></ul>
   <canvas id="grafico"></canvas>
 
   <footer>
